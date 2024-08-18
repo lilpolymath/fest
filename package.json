@@ -7,6 +7,8 @@
   "author": "lilpolymath",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^5.3.0",
     "glob": "^11.0.0"
-  }
+  },
+  "type": "module"
 }
