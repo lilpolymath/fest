@@ -1,0 +1,12 @@
+{
+  "name": "fest",
+  "version": "1.0.0",
+  "description": "A lightweight testing framework for JavaScript",
+  "main": "index.js",
+  "repository": "https://github.com/lilpolymath/fest",
+  "author": "lilpolymath",
+  "license": "MIT",
+  "dependencies": {
+    "glob": "^11.0.0"
+  }
+}
