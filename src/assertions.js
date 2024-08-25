@@ -1,4 +1,8 @@
 const validate = (actual) => {
+  if (actual === undefined || actual === null) {
+    throw new Error("Validation requires an actual value to be provided.");
+  }
+
   return {
     isEqual: (expected) => {
       if (JSON.stringify(actual) === JSON.stringify(expected)) {
