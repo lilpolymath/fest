@@ -1,3 +1,3 @@
-import fileResolver from "./src/fileResolver.js";
+import runTests from "./src/testRunner.js";
 
-fileResolver();
+runTests();
