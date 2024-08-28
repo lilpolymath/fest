@@ -8,7 +8,7 @@ import {
   afterEach,
 } from "../src/hooks.js";
 
-describe("Example Test Suite 1", () => {
+describe("Test Suite 1", () => {
   beforeAll(() => {
     console.log("Setup before all tests");
   });
@@ -25,8 +25,18 @@ describe("Example Test Suite 1", () => {
     console.log("Cleanup after all tests");
   });
 
-  spec("should test something", () => {
-    validate(1 + 1).isEqual(2);
+  spec("should fail", () => {
+    validate(1 + 1).isEqual(3);
     validate({ a: 1 }).isEqual({ a: 1 });
+  });
+
+  spec("should pass", () => {
+    validate({ a: 1 }).isEqual({ a: 1 });
+  });
+});
+
+describe("Test Suite 2", () => {
+  spec("should pass", () => {
+    validate(3).isNotEqual({ a: 1 });
   });
 });

@@ -1,8 +1,9 @@
 import path from "path";
 import logger from "./logger.js";
+import { run } from "./hooks.js";
 import resolveTestFiles from "./resolveTestFiles.js";
 
-const runTests = async () => {
+const main = async () => {
   const testFiles = resolveTestFiles();
 
   if (testFiles.length > 0) {
@@ -12,6 +13,7 @@ const runTests = async () => {
       logger.info(`Running test file: ${testFile}`);
       try {
         await import(path.resolve(testFile));
+        run();
       } catch (error) {
         logger.error(
           `Failed to import test file: ${testFile}. Error: ${error.message}`
@@ -24,4 +26,4 @@ const runTests = async () => {
   }
 };
 
-export default runTests;
+export default main;

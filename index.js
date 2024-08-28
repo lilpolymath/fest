@@ -1,3 +1,3 @@
-import runTests from "./src/testRunner.js";
+import main from "./src/testRunner.js";
 
-runTests();
+main();
