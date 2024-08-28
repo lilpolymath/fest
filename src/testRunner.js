@@ -12,52 +12,48 @@ const run = async () => {
   };
 
   for (const suite of suites) {
-    console.log("\n");
-    logger.info(`Running suite: ${suite.name}`);
+    try {
+      console.log("\n");
+      logger.info(`Running suite: ${suite.name}`);
+      console.group();
 
-    console.group();
-    for (const hook of suite.beforeAll) {
-      try {
-        await hook();
-      } catch (error) {
-        logger.error("Error in beforeAll hook", error);
-      }
-    }
-    console.log("");
-    for (const spec of suite.specs) {
-      try {
-        logger.info(`Executing spec: ${spec.name}`);
+      // Run beforeAll hooks
+      for (const hook of suite.beforeAll) await hook();
 
-        for (const hook of suite.beforeEach) {
-          await hook();
-        }
-
+      console.log("");
+      for (const spec of suite.specs) {
         try {
-          await spec.cb();
-          logger.pass(`${spec.name}`);
+          logger.info(`Executing spec: ${spec.name}`);
+
+          // Run beforeEach hooks
+          for (const hook of suite.beforeEach) await hook();
+
+          try {
+            await spec.cb();
+            logger.pass(`${spec.name}`);
+          } catch (error) {
+            stats.failed += 1;
+            logger.fail(`${spec.name}`, error);
+          }
+
+          // Run afterEach hooks
+          for (const hook of suite.afterEach) await hook();
         } catch (error) {
-          stats.failed += 1;
           logger.fail(`${spec.name}`, error);
         }
-
-        for (const hook of suite.afterEach) {
-          await hook();
-        }
-      } catch (error) {
-        logger.fail(`${spec.name}`, error);
+        stats.total += 1;
+        console.log("");
       }
-      stats.total += 1;
-      console.log("");
-    }
 
-    for (const hook of suite.afterAll) {
-      try {
-        await hook();
-      } catch (error) {
-        logger.error("Error in afterAll hook", error);
-      }
+      // Run afterAll hooks
+      for (const hook of suite.afterAll) await hook();
+
+      console.groupEnd();
+    } catch (error) {
+      logger.error("Error during suite execution", error);
+    } finally {
+      console.groupEnd();
     }
-    console.groupEnd();
   }
 
   return stats;
