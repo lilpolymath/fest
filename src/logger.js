@@ -5,13 +5,16 @@ const error = console.error;
 
 const logger = {
   info: (message) => {
-    log(chalk.whiteBright("INFO: " + message));
+    log(chalk.cyanBright(`[INFO] ${message}`));
   },
   success: (message) => {
-    log(chalk.green("SUCCESS: " + message));
+    log(chalk.greenBright.bold(`[SUCCESS] ${message}`));
+  },
+  warn: (message) => {
+    log(chalk.yellowBright(`[WARN] ${message}`));
   },
   error: (message) => {
-    error(chalk.red("ERROR: " + message));
+    error(chalk.redBright.bold(`[ERROR] ${message}`));
   },
 };
 
