@@ -53,53 +53,19 @@ const spec = (name, cb) => {
   currentContext.specs.push({ name, cb });
 };
 
-const run = async () => {
-  for (const suite of suites) {
-    console.log("\n");
-    logger.info(`Running suite: ${suite.name}`);
-
-    console.group();
-    for (const hook of suite.beforeAll) {
-      try {
-        await hook();
-      } catch (error) {
-        logger.error("Error in beforeAll hook", error);
-      }
-    }
-    console.log("");
-    for (const spec of suite.specs) {
-      try {
-        logger.info(`Executing spec: ${spec.name}`);
-
-        for (const hook of suite.beforeEach) {
-          await hook();
-        }
-
-        try {
-          await spec.cb();
-          logger.success(`${spec.name}`);
-        } catch (error) {
-          logger.error(`${spec.name}`, error);
-        }
-
-        for (const hook of suite.afterEach) {
-          await hook();
-        }
-      } catch (error) {
-        logger.error(`${spec.name}`, error);
-      }
-      console.log("");
-    }
-
-    for (const hook of suite.afterAll) {
-      try {
-        await hook();
-      } catch (error) {
-        logger.error("Error in afterAll hook", error);
-      }
-    }
-    console.groupEnd();
-  }
+const setSuites = (newSuites) => {
+  suites = newSuites;
 };
 
-export { beforeAll, beforeEach, afterEach, afterAll, describe, spec, run };
+const getSuites = () => suites;
+
+export {
+  beforeAll,
+  beforeEach,
+  afterEach,
+  afterAll,
+  describe,
+  spec,
+  getSuites,
+  setSuites,
+};
